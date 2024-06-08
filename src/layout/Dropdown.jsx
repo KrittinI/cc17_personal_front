@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 export default function Dropdown() {
-
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
 

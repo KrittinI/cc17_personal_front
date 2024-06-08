@@ -1,7 +1,10 @@
-import React from 'react'
+import SplitScreen from "../layout/SplitScreen";
 
 export default function HomePage() {
     return (
-        <div>HomePage</div>
+        <SplitScreen>
+            <>Left</>
+            <>Right</>
+        </SplitScreen>
     )
 }

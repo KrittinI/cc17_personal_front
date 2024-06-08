@@ -3,6 +3,7 @@ import Menu from "./Menu";
 import Dropdown from "./Dropdown";
 
 export default function Header() {
+
     return (
         <div className="flex justify-between items-center px-2 shadow bg-white ">
             <div className="hover:bg-blue-50 rounded-lg px-4 py-2">

@@ -1,7 +1,10 @@
-import React from 'react'
+import SplitScreen from "../layout/SplitScreen";
 
 export default function ProfilePage() {
     return (
-        <div>ProfilePage</div>
+        <SplitScreen>
+            <>EventLists</>
+            <>MyProfile</>
+        </SplitScreen>
     )
 }

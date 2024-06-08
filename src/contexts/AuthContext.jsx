@@ -28,10 +28,14 @@ export default function AuthContextProvider({ children }) {
 
     const login = async (input) => {
         const result = await authApi.login(input)
+        console.log(result);
+        if (!result) {
+            const error = new Error('User not found')
+            throw error
+        }
         localStorage.setItem('ACCESS_TOKEN', result?.data.accessToken)
         const resGetUser = await authApi.getAuthUser()
         setAuthUser(resGetUser?.data.user)
-        console.log(resGetUser);
     }
 
     const logout = () => {
