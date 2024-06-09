@@ -6,7 +6,10 @@ export default function RedirectAwayLogin({ children }) {
     const { authUser, isLoading } = useAuth()
     if (authUser && !isLoading) {
         return (
-            <Navigate to='/' />
+            <>
+                <Navigate to='/' />
+
+            </>
         )
 
     }

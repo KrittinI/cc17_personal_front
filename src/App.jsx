@@ -5,7 +5,7 @@ import Router from "./route"
 function App() {
   return (
     <AuthContextProvider>
-      <div className="min-h-[100vh]">
+      <div className="min-h-[100vh-8]">
         <Router />
         <ToastContainer
           position="bottom-right" autoClose={3000}

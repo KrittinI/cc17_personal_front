@@ -27,13 +27,12 @@ export default function AuthContextProvider({ children }) {
     }, [])
 
     const login = async (input) => {
-        const result = await authApi.login(input)
-        console.log(result);
-        if (!result) {
-            const error = new Error('User not found')
-            throw error
+        const response = await authApi.login(input)
+        if (response?.status !== 200) {
+            throw response
         }
-        localStorage.setItem('ACCESS_TOKEN', result?.data.accessToken)
+
+        localStorage.setItem('ACCESS_TOKEN', response?.data.accessToken)
         const resGetUser = await authApi.getAuthUser()
         setAuthUser(resGetUser?.data.user)
     }
@@ -43,7 +42,7 @@ export default function AuthContextProvider({ children }) {
         setAuthUser(null)
     }
 
-    return <AuthContext.Provider value={{ login, logout, authUser, isLoading }}>
+    return <AuthContext.Provider value={{ login, logout, authUser, isLoading, setAuthUser }}>
         {children}
     </AuthContext.Provider>
 }

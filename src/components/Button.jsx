@@ -2,7 +2,9 @@ const bgMap = {
     blue: 'bg-blue-500 hover:bg-blue-600',
     sky: 'bg-blue-400 hover:bg-blue-500',
     green: 'bg-green-500 hover:bg-green-600',
-    gray: 'bg-gray-200 hover:bg-gray-300'
+    gray: 'bg-gray-200 hover:bg-gray-300',
+    none: 'border border-black hover:bg-gray-300 hover:border-none',
+    disable: 'bg-gray-200'
 }
 
 const colorMap = {
@@ -12,6 +14,7 @@ const colorMap = {
 
 const widthMap = {
     full: 'w-full',
+    20: 'w-20',
     40: 'w-40',
     60: 'w-60',
 }

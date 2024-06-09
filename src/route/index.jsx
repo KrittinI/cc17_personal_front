@@ -9,6 +9,7 @@ import ProfilePage from '../pages/ProfilePage'
 import BillPage from '../pages/BillPage'
 import RedirectToLogin from '../features/authenticate/components/RedirectToLogin'
 import RedirectAwayLogin from '../features/authenticate/components/RedirectAwayLogin'
+import CourtDetailPage from '../pages/CourtDetailPage'
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
                 )
             },
             { path: '/courts', element: <CourtPage /> },
+            { path: '/courts/:courtId', element: <CourtDetailPage /> },
             {
                 path: '/events', element: (
                     <RedirectToLogin>
@@ -46,7 +48,7 @@ const router = createBrowserRouter([
                 )
             },
             {
-                path: '/profile', element: (
+                path: '/users/:userId', element: (
                     <RedirectToLogin>
                         <ProfilePage />
                     </RedirectToLogin>

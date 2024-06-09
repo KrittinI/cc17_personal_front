@@ -23,7 +23,7 @@ export default function Dropdown() {
             {open && <div className="absolute bg-white right-8 translate-y-2 p-2 w-24 rounded-xl shadow flex flex-col justify-center items-center gap-2">
                 {authUser
                     ? <>
-                        <Link to='/profile' className="w-full text-center rounded-lg hover:bg-blue-50">Profile</Link>
+                        <Link to={`/users/${authUser.id}`} className="w-full text-center rounded-lg hover:bg-blue-50">Profile</Link>
                         <div className="w-full text-center rounded-lg hover:bg-blue-50" onClick={handleClickLogout}>Log out</div>
                     </>
                     : <>

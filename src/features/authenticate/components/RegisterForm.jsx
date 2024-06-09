@@ -44,16 +44,15 @@ export default function RegisterForm({ onSuccess }) {
                 return setInputError(error)
             }
             setInputError({ ...initialInputError })
-            const result = await authApi.register(input)
-            if (!result) {
-                const error = new Error('username email or mobile already used')
-                throw error
+            const response = await authApi.register(input)
+            // await authApi.register(input)
+            if (response.status !== 201) {
+                throw response.response.data
             }
             onSuccess();
             toast.success('register successfully. please login to continue.')
-            console.log(result);
         } catch (error) {
-            setError('username email or mobile already used')
+            setError(error.message)
         }
     }
 

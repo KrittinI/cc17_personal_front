@@ -9,14 +9,18 @@ axios.interceptors.request.use(config => {
     }
     return config
 },
-    error => Promise.reject(error)
+    err => Promise.reject(err)
 )
 
-axios.interceptors.response.use(value => Promise.resolve(value), err => {
-    if (err.response.status === 401) {
-        localStorage.removeItem('ACCESS_TOKEN')
-        window.location.assign('/login')
-        return;
-    }
-})
+axios.interceptors.response.use(
+    value => value,
+
+    err => {
+        if (err.response.status === 401) {
+            localStorage.removeItem('ACCESS_TOKEN')
+            window.location.assign('/login')
+        }
+        // return Promise.reject(err)
+        return err
+    })
 export default axios
