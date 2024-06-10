@@ -10,6 +10,7 @@ import BillPage from '../pages/BillPage'
 import RedirectToLogin from '../features/authenticate/components/RedirectToLogin'
 import RedirectAwayLogin from '../features/authenticate/components/RedirectAwayLogin'
 import CourtDetailPage from '../pages/CourtDetailPage'
+import EventDetailPage from '../pages/EventDetailPage'
 
 
 const router = createBrowserRouter([
@@ -37,6 +38,13 @@ const router = createBrowserRouter([
                 path: '/events', element: (
                     <RedirectToLogin>
                         <EventPage />
+                    </RedirectToLogin>
+                )
+            },
+            {
+                path: '/events/:eventId', element: (
+                    <RedirectToLogin>
+                        <EventDetailPage />
                     </RedirectToLogin>
                 )
             },

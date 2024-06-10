@@ -3,6 +3,7 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import courtApi from "../../../api/court";
 import { toast } from "react-toastify";
+import useCourt from "../hooks/useCourt";
 
 const initialInput = {
     name: "", // unique notnull
@@ -11,6 +12,7 @@ const initialInput = {
     amountCourt: '',
     mobile: "", // notnull
     detail: "",
+    isActive: true,
     courtImage: ""
 }
 
@@ -18,6 +20,7 @@ const initialInput = {
 export default function CourtForm({ onSuccess }) {
     const [input, setInput] = useState(initialInput)
     const [error, setError] = useState()
+    const { setCourts } = useCourt()
 
     const handleChangeInput = e => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -36,6 +39,8 @@ export default function CourtForm({ onSuccess }) {
                 return setError(response?.response?.data.message)
             }
             onSuccess()
+
+            setCourts(prev => [...prev, input])
             toast.success(response.data.message)
         } catch (error) {
             console.log(error);
