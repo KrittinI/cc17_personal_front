@@ -2,6 +2,7 @@ import { createContext } from "react";
 import authApi from "../api/auth";
 import { useState } from "react";
 import { useEffect } from "react";
+import relationApi from "../api/relation";
 
 
 export const AuthContext = createContext()
@@ -9,6 +10,7 @@ export const AuthContext = createContext()
 export default function AuthContextProvider({ children }) {
     const [authUser, setAuthUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [authRelation, setAuthRelation] = useState([])
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -16,6 +18,8 @@ export default function AuthContextProvider({ children }) {
                 if (localStorage.getItem("ACCESS_TOKEN")) {
                     const res = await authApi.getAuthUser()
                     setAuthUser(res.data.user)
+                    const response = await relationApi.getEventByUserId(res.data.user.id)
+                    setAuthRelation(response.data.relations)
                 }
             } catch (error) {
                 console.log(error);
@@ -42,7 +46,7 @@ export default function AuthContextProvider({ children }) {
         setAuthUser(null)
     }
 
-    return <AuthContext.Provider value={{ login, logout, authUser, isLoading, setAuthUser }}>
+    return <AuthContext.Provider value={{ login, logout, authUser, isLoading, setAuthUser, authRelation, setAuthRelation }}>
         {children}
     </AuthContext.Provider>
 }

@@ -33,7 +33,7 @@ export default function CourtPage() {
         <div>
             <div className='flex justify-between items-center px-8 pt-4 pb-2 sticky top-14 bg-blue-200'>
                 <h1 className='text-4xl font-bold'>Courtlists</h1>
-                <Button bg='sky' onClick={handeClickAddCourt} >Add Court</Button>
+                {authUser?.isAdmin && <Button bg='sky' onClick={handeClickAddCourt} >Add Court</Button>}
                 <Modal title="Court Detail" open={open} onClose={() => setOpen(false)}>
                     <CourtForm onSuccess={() => setOpen(false)} />
                 </Modal>

@@ -6,6 +6,7 @@ import Avatar from "../../../components/Avatar";
 import { useEffect } from "react";
 import userApi from "../../../api/user";
 import { toast } from "react-toastify";
+import validateProfile from "../validator/profile-validator";
 
 export default function ProfileContainer({ userId }) {
     const { authUser, setAuthUser } = useAuth()
@@ -27,19 +28,22 @@ export default function ProfileContainer({ userId }) {
     const handleClickSaveEdit = async () => {
         try {
             for (let i in authUser) {
-                if (authUser[i] !== userProfile[i]) {
-                    const response = await userApi.updateUserProfile(userProfile)
-                    if (response.status !== 200) {
-                        setError('username email or mobile already used')
-                        return
-                    }
-                    setIsEdit(false)
-                    setUserProfile(response.data.userProfile)
-                    setAuthUser(response.data.userProfile)
-                    toast.success('Save Profile')
+                if (authUser[i] === userProfile[i]) continue
+                const error = validateProfile(userProfile)
+                if (error) {
+                    console.log(error);
+                    return setError("email or mobile incorrect form")
                 }
+                const response = await userApi.updateUserProfile(userProfile)
+                if (response.status !== 200) {
+                    return setError('username email or mobile already used')
+                }
+                setUserProfile(response.data.userProfile)
+                setAuthUser(response.data.userProfile)
             }
+            toast.success('Save Profile')
             setIsEdit(false)
+
         } catch (error) {
             console.log(error);
         }

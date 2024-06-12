@@ -11,7 +11,22 @@ export default function EventContextProvider({ children }) {
 
     const fetchEventData = async () => {
         const response = await eventApi.getAllEvent()
-        setEvents(response.data.events)
+        const data = response.data.events
+        // data?.map(event => {
+        //     const now = Date.now()
+        //     let eventTime = Date.parse(event.eventDay)
+        //     const duration = event?.evnetDuration[0]
+        //     if (duration) eventTime += duration * 60 * 60 * 1000
+        //     if (now > eventTime) {
+        //         event.status = "END"
+        //     }
+        //     // if (now - eventTime > 24 * 60 * 60 * 1000) {
+        //     //     // await eventApi.deleteEvent(event.id)
+        //     // }
+        //     return event
+        // }
+        // )
+        setEvents(data)
     }
 
     useEffect(() => {

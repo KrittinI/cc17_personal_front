@@ -51,7 +51,7 @@ export default function CourtDetail({ courtDetail, width = "full" }) {
                         className=" flex justify-center items-center bg-gray-100 rounded-md h-64 w-full">
                         {courtDetail.courtImage || <BadmintonIcon />}
                     </div>
-                    <div className="font-semibold">Location:</div>
+                    <div className="font-semibold">Google Map:</div>
                     {courtDetail.location
                         ? <a href={courtDetail.location} className="text-blue-500 underline" target="_blank">
                             {courtDetail.location}

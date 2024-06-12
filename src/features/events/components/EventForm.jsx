@@ -120,7 +120,7 @@ export default function EventForm({ courtId = 0, onSuccess }) {
                         name="evnetDuration"
                         value={input.evnetDuration} max={10} />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-3">
                     <label role="button" htmlFor="limit">Limit (person):</label>
                     <InputNumber
                         placeholder="Limit"
@@ -128,13 +128,13 @@ export default function EventForm({ courtId = 0, onSuccess }) {
                         name="limit"
                         value={input.limit} />
                 </div>
-                <div className="col-span-1 flex flex-col justify-between items-center gap-2">
+                {/* <div className="col-span-1 flex flex-col justify-between items-center gap-2">
                     <label role="button" htmlFor="payFirst">PayFirst: </label>
                     <input type="checkbox" id="payFirst"
                         name="payFirst"
                         checked={input.payFirst}
                         onChange={handleChangeCheckBox} />
-                </div>
+                </div> */}
                 <div className="col-span-1">
                     <label role="button" htmlFor="courtId">Location*: </label>
                 </div>

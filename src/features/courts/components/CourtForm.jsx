@@ -20,7 +20,7 @@ const initialInput = {
 export default function CourtForm({ onSuccess }) {
     const [input, setInput] = useState(initialInput)
     const [error, setError] = useState()
-    const { setCourts } = useCourt()
+    const { courts, setCourts } = useCourt()
 
     const handleChangeInput = e => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -29,18 +29,28 @@ export default function CourtForm({ onSuccess }) {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
-            if (!(input.name.trim() && input.mobile.trim()))
+            const data = { ...input }
+            if (!(data.name.trim() && data.mobile.trim()))
                 return setError("court must have name and mobile")
-            if (isNaN(input.mobile) || input.mobile.trim().length < 10)
+            if (data.name.trim > 20) {
+                return setError("court name cannot contain more than 20 characters")
+            }
+            if (isNaN(data.mobile) || data.mobile.trim().length < 10)
                 return setError("invalid mobile number")
-            const response = await courtApi.createCourt(input)
-            console.log(response);
+            if (isNaN(data.ratePerHour)) {
+                return setError("rate per hour must be a number")
+            }
+            if (data.ratePerHour > 1000000) {
+                return setError("rate per should less than 1,000,000")
+            }
+
+            const response = await courtApi.createCourt(data)
             if (response?.status !== 201) {
                 return setError(response?.response?.data.message)
             }
             onSuccess()
-
-            setCourts(prev => [...prev, input])
+            data.id = courts.length + 1
+            setCourts(prev => [...prev, data])
             toast.success(response.data.message)
         } catch (error) {
             console.log(error);
