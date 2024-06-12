@@ -15,16 +15,16 @@ export default function EventCard({ event, display }) {
         <CardBox display={display}>
             <div>
                 <div className=" text-2xl font-bold flex items-center">{event?.name}</div>
-                <div className=" text-md flex items-center 	font-style: italic">by {event?.users.userName}</div>
-                <div>@{event.courts.name}</div>
+                <div className=" text-md flex items-center 	font-style: italic">by {event?.users?.userName}</div>
+                <div>@{event?.courts?.name}</div>
             </div>
             <div>
                 <div>Event Day:</div>
-                <div>{`${date}, ${time} ${event.evnetDuration ? `(${event.evnetDuration})` : ''}`}</div>
+                <div>{`${date}, ${time} ${event?.evnetDuration ? `(${event?.evnetDuration})` : ''}`}</div>
             </div>
             <div className="flex justify-between items-center">
-                <div>Limit:{event.limit} person</div>
-                <div className={`px-3 py-1 ${statusMap[event.status]} font-semibold rounded-md shadow`}>{event.status}</div>
+                <div>Limit:{event?.limit} person</div>
+                <div className={`px-3 py-1 ${statusMap[event?.status]} font-semibold rounded-md shadow`}>{event?.status}</div>
             </div>
         </CardBox>
     )

@@ -9,17 +9,17 @@ export const EventContext = createContext()
 export default function EventContextProvider({ children }) {
     const [events, setEvents] = useState([])
 
+    const fetchEventData = async () => {
+        const response = await eventApi.getAllEvent()
+        setEvents(response.data.events)
+    }
+
     useEffect(() => {
-        const fetchEventData = async () => {
-            const response = await eventApi.getAllEvent()
-            // console.log(response.data.events);
-            setEvents(response.data.events)
-        }
         fetchEventData()
     }, [])
 
 
-    const value = { events, setEvents }
+    const value = { events, setEvents, fetchEventData }
     return (
         <EventContext.Provider value={value}>
             {children}

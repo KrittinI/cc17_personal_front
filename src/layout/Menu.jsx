@@ -5,7 +5,7 @@ const mentList = [
     { id: 1, name: 'Home', to: '/' },
     { id: 2, name: 'Court', to: '/courts' },
     { id: 3, name: 'Event', to: '/events' },
-    { id: 4, name: 'Payment', to: '/bills' },
+    // { id: 4, name: 'Payment', to: '/bills' },
 ]
 
 export default function Menu() {

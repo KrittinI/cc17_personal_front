@@ -1,8 +1,10 @@
-export default function Input({ placeholder, type = 'text', error, value, onChage, name, size = 3 }) {
+export default function InputNumber({ placeholder, type = 'number', error, value, onChage, name, size = 3, max = 1000 }) {
     return (
         <>
             <input
                 type={type}
+                min={0}
+                max={max}
                 placeholder={placeholder}
                 className={`w-full px-${size} py-${size / 2} border rounded-md focus:outline-none focus:ring-2 
             ${error ? 'border-red-500 focus:ring-red-300'

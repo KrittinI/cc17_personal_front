@@ -4,23 +4,23 @@ import useAuth from "../../../hooks/useAuth"
 import Input from "../../../components/Input";
 import Avatar from "../../../components/Avatar";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import userApi from "../../../api/user";
 import { toast } from "react-toastify";
 
-export default function ProfileContainer() {
+export default function ProfileContainer({ userId }) {
     const { authUser, setAuthUser } = useAuth()
-    const { userId } = useParams()
 
     const [userProfile, setUserProfile] = useState({})
     const [isEdit, setIsEdit] = useState(false)
+    const [error, setError] = useState("")
 
     const handleChangeEditUser = e => {
+        setError('')
         setUserProfile({ ...userProfile, [e.target.name]: e.target.value })
     }
 
     const handleClickCancelEdit = () => {
-        setUserProfile(userProfile)
+        setUserProfile(authUser)
         setIsEdit(false)
     }
 
@@ -29,12 +29,14 @@ export default function ProfileContainer() {
             for (let i in authUser) {
                 if (authUser[i] !== userProfile[i]) {
                     const response = await userApi.updateUserProfile(userProfile)
-                    if (response.status === 200) {
-                        setIsEdit(false)
-                        setUserProfile(response.data.userProfile)
-                        setAuthUser(response.data.userProfile)
-                        toast.success('Save Profile')
+                    if (response.status !== 200) {
+                        setError('username email or mobile already used')
+                        return
                     }
+                    setIsEdit(false)
+                    setUserProfile(response.data.userProfile)
+                    setAuthUser(response.data.userProfile)
+                    toast.success('Save Profile')
                 }
             }
             setIsEdit(false)
@@ -59,6 +61,7 @@ export default function ProfileContainer() {
 
     return (
         <div className="flex flex-col  gap-4 bg-white p-4 rounded-2xl">
+            <div className="text-3xl font-semibold text-center">Profile</div>
             <div className="flex flex-col gap-2 items-center">
                 <Avatar size={8} />
                 <hr className="border-1 border-black w-full" />
@@ -103,6 +106,7 @@ export default function ProfileContainer() {
                 }
                 <hr className="border-1 border-black" />
             </div>
+            <span className="text-center text-red-500">{error}</span>
             {authUser?.id === +userId && <div className="text-center">
                 {isEdit
                     ? <div className="flex justify-evenly">

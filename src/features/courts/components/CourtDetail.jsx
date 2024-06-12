@@ -15,6 +15,7 @@ export default function CourtDetail({ courtDetail, width = "full" }) {
     const { authUser } = useAuth()
     const [open, setOpen] = useState(false)
 
+
     return (
         <div className={`${widthMap[width]} mx-auto bg-white p-4 rounded-xl flex min-h-[80vh] gap-2`}>
             <div className="w-[60%] flex flex-col justify-start gap-8 py-4">

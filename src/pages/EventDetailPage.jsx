@@ -20,7 +20,7 @@ export default function EventDetailPage() {
 
     return (
         <SplitScreen>
-            <><EventDetail eventDetail={eventDetail} /></>
+            <><EventDetail eventDetail={eventDetail} setEventDetail={setEventDetail} /></>
             <>Players Relation</>
         </SplitScreen>
     )
