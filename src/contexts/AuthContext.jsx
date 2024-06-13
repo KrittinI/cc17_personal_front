@@ -12,21 +12,22 @@ export default function AuthContextProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true)
     const [authRelation, setAuthRelation] = useState([])
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                if (localStorage.getItem("ACCESS_TOKEN")) {
-                    const res = await authApi.getAuthUser()
-                    setAuthUser(res.data.user)
-                    const response = await relationApi.getEventByUserId(res.data.user.id)
-                    setAuthRelation(response.data.relations)
-                }
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setIsLoading(false)
+    const fetchUser = async () => {
+        try {
+            if (localStorage.getItem("ACCESS_TOKEN")) {
+                const res = await authApi.getAuthUser()
+                setAuthUser(res.data.user)
+                const response = await relationApi.getEventByUserId(res.data.user.id)
+                setAuthRelation(response.data.relations)
             }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false)
         }
+    }
+    useEffect(() => {
+
         fetchUser()
     }, [])
 
@@ -46,7 +47,7 @@ export default function AuthContextProvider({ children }) {
         setAuthUser(null)
     }
 
-    return <AuthContext.Provider value={{ login, logout, authUser, isLoading, setAuthUser, authRelation, setAuthRelation }}>
+    return <AuthContext.Provider value={{ login, logout, authUser, isLoading, setAuthUser, authRelation, setAuthRelation, fetchUser }}>
         {children}
     </AuthContext.Provider>
 }

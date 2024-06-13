@@ -1,3 +1,4 @@
+import Avatar from "../../../components/Avatar";
 import CardBox from "../../../components/CardBox";
 
 const statusMap = {
@@ -14,17 +15,20 @@ export default function EventCard({ event, display }) {
     const time = eventDay[1].slice(0, 5)
     return (
         <CardBox display={display}>
-            <div>
-                <div className=" text-2xl font-bold flex items-center overflow-hidden">{event?.name}</div>
-                <div className=" text-md flex items-center 	font-style: italic">by {event?.users?.userName}</div>
-                <div>@{event?.courts?.name}</div>
+            <div className="flex items-center justify-between px-2">
+                <div className="flex flex-col overflow-hidden">
+                    <div className=" text-xl font-bold flex items-center overflow-hidden ">{event?.name}</div>
+                    <div className=" text-md flex items-center 	font-style: italic">by {event?.users?.userName}</div>
+                    <div>@{event?.courts?.name}</div>
+                </div>
+                <Avatar size={3} src={event?.users?.profileImage} />
             </div>
             <div>
                 <div>Event Day:</div>
-                <div>{`${date}, ${time} ${event?.evnetDuration ? `(${event?.evnetDuration})` : ''}`}</div>
+                <div>{`${date}, ${time} ${event?.evnetDuration ? `(${event?.evnetDuration}h)` : ''}`}</div>
             </div>
             <div className="flex justify-between items-center">
-                <div>Limit:{event?.limit} person</div>
+                <div>{event?.limit === 0 ? "No Limit" : `Limit:${event?.limit} person`}</div>
                 <div className={`px-3 py-1 ${statusMap[event?.status]} font-semibold rounded-md `}>{event?.status}</div>
             </div>
         </CardBox>

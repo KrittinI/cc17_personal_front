@@ -18,8 +18,8 @@ export default function Dropdown() {
 
 
     return (
-        <div role='button' className="relative px-8 py-2" onClick={() => setOpen(prev => !prev)}>
-            <Avatar />
+        <div role='button' className="relative px-8 py-2 " onClick={() => setOpen(prev => !prev)}>
+            <Avatar src={authUser?.profileImage} />
             {open && <div className="absolute bg-white right-8 translate-y-2 p-2 w-24 rounded-xl shadow flex flex-col justify-center items-center gap-2">
                 {authUser
                     ? <>

@@ -7,6 +7,7 @@ import eventApi from "../../../api/event";
 import { useState } from "react";
 import relationApi from "../../../api/relation";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const statusMap = {
     OPENED: 'bg-green-500 text-white',
@@ -22,6 +23,7 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
 
     const [isDelete, setIsDelete] = useState(false)
     const isJoin = players.find(player => player.playerId === authUser.id)
+    const isFull = eventDetail.limit !== 0 ? eventDetail.limit <= players.length : false
 
     const eventDay = eventDetail?.eventDay
     const eDate = eventDay?.split('T')[0].split('-').reverse().join('/')
@@ -93,6 +95,9 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
         }
     }
 
+    const handleClickFullEvent = () => {
+        toast.error("This Event is Fulled")
+    }
 
     return (
         <div className={`w-full mx-auto bg-white p-4 rounded-xl flex min-h-[80vh] gap-2`}>
@@ -108,12 +113,12 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
                     </div>
                     <div className="text-xl">
                         <span className="font-semibold">Duration: </span>
-                        <span>{eventDetail?.evnetDuration}</span>
+                        <span>{eventDetail?.evnetDuration ? `${eventDetail?.evnetDuration}h` : "N/A"}</span>
                     </div>
                     <div className="text-xl">
                         <span className="font-semibold">Closing Time: </span>
                         {eventDetail?.status === "OPENED"
-                            ? closingTime ? <span>{`${cDate}, ${cTime}`}</span> : <p></p>
+                            ? <span>{eventDetail?.closingTime ? `${cDate}, ${cTime}` : 'N/A'}</span>
                             : <span>Closed</span>
                         }
                     </div>
@@ -123,7 +128,9 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
                     </div>
                     <div className="font-bold text-2xl">Event Creator</div>
                     <div className="flex flex-col gap-4 px-4">
-                        <Avatar size={8} />
+                        <Link to={`/users/${eventDetail?.users?.id}`}>
+                            <Avatar size={8} src={eventDetail?.users?.profileImage} />
+                        </Link>
                         <div className="text-xl">
                             <span className="font-semibold">Owner: </span>
                             <span>{eventDetail?.users?.userName}</span>
@@ -138,7 +145,7 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
                     ? <div className="flex justify-between">
                         {isDelete
                             ? <>
-                                <Button bg="red" color="white" width={40} onClick={handleClickDelete}>Delete Event</Button>
+                                <Button bg="blue" color="white" width={40} onClick={handleClickDelete}>Confirm</Button>
                                 <Button bg="none" color="black" width={40} onClick={() => setIsDelete(false)}>Cancel</Button>
                             </>
                             : <>
@@ -147,7 +154,7 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
                                     ? <></>
                                     : <Button width={40} onClick={handleClickClose}>Closed</Button>
                                 }
-                                <Button bg="none" color="black" width={40} onClick={() => setIsDelete(true)}>Edit Event</Button>
+                                <Button bg="red" color="white" width={40} onClick={() => setIsDelete(true)}>Delete Event</Button>
                             </>
                         }
                     </div>
@@ -178,7 +185,9 @@ export default function EventDetail({ eventDetail, setEventDetail, players, setP
                             ? <Button bg="disable" color="gray" width={40}>{isJoin ? "Joined" : "Event Close"}</Button> // Relation
                             : isJoin // Relation
                                 ? <Button bg="gray" color="black" width={40} onClick={handleClickUnjoinEvent}>Unjoin Event</Button>
-                                : <Button width={40} onClick={handleClickJoinEvent}>Join Event</Button>
+                                : isFull
+                                    ? <Button width={40} bg="disable" onClick={handleClickFullEvent}>Full</Button>
+                                    : <Button width={40} onClick={handleClickJoinEvent}>Join Event</Button>
                 }
             </div>
         </div >

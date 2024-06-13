@@ -3,10 +3,16 @@ import Button from "../../../components/Button";
 import CourtContainer from "../../courts/components/CourtContainer";
 import EventContainer from "../../events/components/EventContainer";
 import useEvent from "../../events/hooks/useEvent";
+import { useEffect } from "react";
 
 export default function LeftHome() {
     const navigate = useNavigate()
-    const { events } = useEvent()
+    const { events, fetchEventData } = useEvent()
+
+    useEffect(() => {
+        fetchEventData()
+    }, [])
+
     return (
         <div>
             <div className="flex justify-between px-4 pt-4 pb-2 sticky top-14 bg-blue-200">

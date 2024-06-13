@@ -4,46 +4,57 @@ import Modal from "../../../components/Modal";
 import { BadmintonIcon } from "../../../icons";
 import EventForm from "../../events/components/EventForm";
 import useAuth from "../../../hooks/useAuth";
+import EditCourtForm from "./EditCourtForm"
 
 const widthMap = {
     full: 'w-full',
     70: 'w-[70%]'
 }
 
-export default function CourtDetail({ courtDetail, width = "full" }) {
+export default function CourtDetail({ courtDetail, width = "full", setCourtDetail }) {
 
     const { authUser } = useAuth()
     const [open, setOpen] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
 
 
     return (
         <div className={`${widthMap[width]} mx-auto bg-white p-4 rounded-xl flex min-h-[80vh] gap-2`}>
-            <div className="w-[60%] flex flex-col justify-start gap-8 py-4">
-                <div className="text-5xl font-bold">
-                    {courtDetail.name}
+            <div className="w-[60%] flex flex-col justify-between gap-8 py-4">
+                <div className="flex flex-col gap-8">
+                    <div className="text-5xl font-bold overflow-hidden">
+                        {courtDetail.name}
+                    </div>
+                    <div className="flex flex-col justify-start gap-4 bg-slate-100 p-4 rounded-md">
+                        <div className="text-xl">
+                            <span className="font-semibold">Amount Court: </span>
+                            <span>{courtDetail.amountCourt}</span>
+                        </div>
+                        <div className="text-xl">
+                            <span className="font-semibold">Rate per Hour: </span>
+                            <span>{courtDetail.ratePerHour} Baht</span>
+                        </div>
+                        <div className="text-xl">
+                            <span className="font-semibold">Tel: </span>
+                            <span>{courtDetail.mobile}</span>
+                        </div>
+                        <div className="text-xl">
+                            <span className="font-semibold">More Detail: </span>
+                            <span>{courtDetail.detail ? courtDetail.detail : "none"}</span>
+                        </div>
+                        <div className="text-xl">
+                            <span className="font-semibold">Status: </span>
+                            <span>{courtDetail.isActive ? 'On Service' : 'Closed'}</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="flex flex-col justify-start gap-4 bg-slate-100 p-4 rounded-md">
-                    <div className="text-xl">
-                        <span className="font-semibold">Amount Court: </span>
-                        <span>{courtDetail.amountCourt}</span>
-                    </div>
-                    <div className="text-xl">
-                        <span className="font-semibold">Rate per Hour: </span>
-                        <span>{courtDetail.ratePerHour} Baht</span>
-                    </div>
-                    <div className="text-xl">
-                        <span className="font-semibold">Tel: </span>
-                        <span>{courtDetail.mobile}</span>
-                    </div>
-                    <div className="text-xl">
-                        <span className="font-semibold">More Detail: </span>
-                        <span>{courtDetail.detail ? courtDetail.detail : "none"}</span>
-                    </div>
-                    <div className="text-xl">
-                        <span className="font-semibold">Status: </span>
-                        <span>{courtDetail.isActive ? 'On Service' : 'Closed'}</span>
-                    </div>
+                {true && <div className="self-end">
+                    <Button width={40} bg="none" color="black" onClick={() => setIsEdit(true)}>Edit Court</Button>
+                    <Modal title={`Edit Court`} open={isEdit} onClose={() => setIsEdit(false)}>
+                        <EditCourtForm onSuccess={() => setIsEdit(false)} courtDetail={courtDetail} setCourtDetail={setCourtDetail} />
+                    </Modal>
                 </div>
+                }
             </div>
             <div className="flex-1 flex flex-col justify-between py-4 items-center">
                 <div className="flex flex-col gap-4 w-full">
@@ -59,7 +70,7 @@ export default function CourtDetail({ courtDetail, width = "full" }) {
                         : <p>none</p>
                     }
                 </div>
-                {authUser && <Button width={40} onClick={() => setOpen(true)} >Add Event</Button>}
+                {authUser && courtDetail.isActive && <Button width={40} onClick={() => setOpen(true)} >Add Event</Button>}
                 <Modal title="Event Detail" width={40} open={open} onClose={() => setOpen(false)}>
                     <EventForm onSuccess={() => setOpen(false)} courtId={courtDetail.id} />
                 </Modal>

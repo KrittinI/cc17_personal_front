@@ -29,7 +29,7 @@ export default function CourtDetailPage() {
     else
         return (
             <SplitScreen>
-                <><CourtDetail courtDetail={courtDetail} /></>
+                <><CourtDetail courtDetail={courtDetail} setCourtDetail={setCourtDetail} /></>
                 <><EventInCourt courtId={courtId} /></>
             </SplitScreen>
         )

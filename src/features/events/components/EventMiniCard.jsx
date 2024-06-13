@@ -16,7 +16,7 @@ export default function EventMiniCard({ event }) {
             <div className='flex flex-col justify-between h-full p-4'>
                 <div className='flex justify-between'>
                     <p className='font-semibold text-lg text-wrap max-w-[50%] overflow-hidden'>{event.name}</p>
-                    <p className='shrink-0'>{`${date}, ${time} ${event.evnetDuration ? `(${event.evnetDuration})` : ''}`}</p>
+                    <p className='shrink-0'>{`${date}, ${time} ${event.evnetDuration ? `(${event.evnetDuration}h)` : ''}`}</p>
                 </div>
                 <div className='flex justify-between items-center'>
                     <p>by {event.users.userName}</p>

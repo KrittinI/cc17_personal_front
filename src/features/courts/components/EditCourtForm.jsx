@@ -3,27 +3,19 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import courtApi from "../../../api/court";
 import { toast } from "react-toastify";
-import useCourt from "../hooks/useCourt";
-
-const initialInput = {
-    name: "", // unique notnull
-    location: "",
-    ratePerHour: '',
-    amountCourt: '',
-    mobile: "", // notnull
-    detail: "",
-    isActive: true,
-    courtImage: ""
-}
 
 
-export default function CourtForm({ onSuccess }) {
-    const [input, setInput] = useState(initialInput)
+
+export default function CourtForm({ onSuccess, courtDetail, setCourtDetail }) {
+    const [input, setInput] = useState(courtDetail)
     const [error, setError] = useState()
-    const { courts, setCourts } = useCourt()
 
     const handleChangeInput = e => {
         setInput({ ...input, [e.target.name]: e.target.value })
+        setError('')
+    }
+    const handleClickIsActive = () => {
+        setInput({ ...input, isActive: !input.isActive })
         setError('')
     }
     const handleSubmit = async (e) => {
@@ -43,15 +35,17 @@ export default function CourtForm({ onSuccess }) {
             if (data.ratePerHour > 1000000) {
                 return setError("rate per should less than 1,000,000")
             }
-
-            const response = await courtApi.createCourt(data)
-            if (response?.status !== 201) {
+            if (isNaN(data.amountCourt)) {
+                return setError("Amount Court must be a number")
+            }
+            const response = await courtApi.updateCourtData(input.id, data)
+            console.log(response);
+            if (response?.status !== 200) {
                 return setError(response?.response?.data.message)
             }
             onSuccess()
-            data.id = courts.length + 1
-            setCourts(prev => [...prev, data])
-            toast.success(response.data.message)
+            setCourtDetail(data)
+            toast.success("Update Successfully")
         } catch (error) {
             console.log(error);
         }
@@ -61,6 +55,7 @@ export default function CourtForm({ onSuccess }) {
         <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-4 gap-4 ">
                 <div className="col-span-4">
+                    <p>Name:</p>
                     <Input
                         placeholder="name"
                         name="name"
@@ -69,6 +64,7 @@ export default function CourtForm({ onSuccess }) {
                     />
                 </div>
                 <div className="col-span-4">
+                    <p>Location:</p>
                     <Input
                         placeholder="google map link"
                         name="location"
@@ -77,6 +73,7 @@ export default function CourtForm({ onSuccess }) {
                     />
                 </div>
                 <div>
+                    <p>Rate/Hour:</p>
                     <Input
                         placeholder="rate/hour"
                         name="ratePerHour"
@@ -85,6 +82,7 @@ export default function CourtForm({ onSuccess }) {
                     />
                 </div>
                 <div>
+                    <p>Court:</p>
                     <Input
                         placeholder="amount court"
                         name="amountCourt"
@@ -93,6 +91,7 @@ export default function CourtForm({ onSuccess }) {
                     />
                 </div>
                 <div className="col-span-2">
+                    <p>Tel: </p>
                     <Input
                         placeholder="mobile"
                         name="mobile"
@@ -101,6 +100,7 @@ export default function CourtForm({ onSuccess }) {
                     />
                 </div>
                 <div className="col-span-4 row-span-2">
+                    <p>Detail:</p>
                     <Input
                         placeholder="detail"
                         name="detail"
@@ -108,7 +108,25 @@ export default function CourtForm({ onSuccess }) {
                         onChage={handleChangeInput}
                     />
                 </div>
+                <div className="col-span-1 flex justify-center items-center">
+                    <p>Active: </p>
+                </div>
+                <div>
+                    <button
+                        type="button"
+                        name="isActive"
+                        value={input?.isActive}
+                        onClick={handleClickIsActive}
+                        className={`${input.isActive
+                            ? 'bg-green-500 hover:bg-green-600'
+                            : 'bg-red-500 hover:bg-red-600'}
+                            px-3 py-1.5 rounded-xl text-white`}
+                    >
+                        {input.isActive ? "TRUE" : "FALSE"}
+                    </button>
+                </div>
                 {/* <div className="col-span-4">
+                    <p>Court Image:</p>
                     <Input
                         placeholder="court image"
                         name="courtImage"
@@ -116,9 +134,12 @@ export default function CourtForm({ onSuccess }) {
                         onChage={handleChangeInput}
                     />
                 </div> */}
-                {error ? <span className="text-red-500 w-full col-span-4 text-center">{error}</span> : <p></p>}
-                <div className="col-span-4">
-                    <Button width="full">Add Court</Button>
+                {error ? <span className="text-red-500 w-full col-span-4 text-center">{error}</span> : <p className="col-span-4"></p>}
+                <div className="col-span-2">
+                    <Button width="full">Update</Button>
+                </div>
+                <div className="col-span-2">
+                    <button type="button" className="border border-black hover:bg-gray-300 hover:border-gray-300 w-full px-3 py-1.5 rounded-xl" onClick={() => onSuccess()}>Cancel</button>
                 </div>
             </div>
         </form>

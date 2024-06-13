@@ -7,13 +7,17 @@ import { useEffect } from "react";
 import userApi from "../../../api/user";
 import { toast } from "react-toastify";
 import validateProfile from "../validator/profile-validator";
+import Modal from "../../../components/Modal";
+import ProfileAvatarContainer from "./ProfileAvatarContainer";
 
 export default function ProfileContainer({ userId }) {
     const { authUser, setAuthUser } = useAuth()
 
     const [userProfile, setUserProfile] = useState({})
     const [isEdit, setIsEdit] = useState(false)
+
     const [error, setError] = useState("")
+    const [open, setOpen] = useState(false)
 
     const handleChangeEditUser = e => {
         setError('')
@@ -67,7 +71,23 @@ export default function ProfileContainer({ userId }) {
         <div className="flex flex-col  gap-4 bg-white p-4 rounded-2xl">
             <div className="text-3xl font-semibold text-center">Profile</div>
             <div className="flex flex-col gap-2 items-center">
-                <Avatar size={8} />
+                {isEdit
+                    ? <>
+                        <Button bg="avatar" onClick={() => setOpen(true)}>
+                            <Avatar size={8} src={userProfile.profileImage} />
+                        </Button>
+                        <button className="text-blue-500 underline hover:text-blue-600" onClick={() => setOpen(true)}>Edit Avatar</button>
+                        <Modal title={`Choose Your Avatar`} open={open} onClose={() => setOpen(false)} width={50}>
+                            <ProfileAvatarContainer
+                                profileImage={userProfile.profileImage}
+                                onClose={() => setOpen(false)}
+                                setUserProfile={setUserProfile}
+                                userProfile={userProfile}
+                            />
+                        </Modal>
+                    </>
+                    : <Avatar size={8} src={userProfile.profileImage} />
+                }
                 <hr className="border-1 border-black w-full" />
             </div>
             <div className="flex flex-col gap-2">

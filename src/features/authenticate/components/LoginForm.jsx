@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import RegisterBox from "./RegisterBox";
 import validateLogin from "../validators/login-validator";
-import { AxiosError } from "axios";
 
 const initialInput = {
     userName: '',

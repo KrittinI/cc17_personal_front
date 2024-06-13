@@ -10,6 +10,7 @@ import InputDateTime from "../../../components/InputDateTime";
 import useEvent from "../hooks/useEvent";
 import eventApi from "../../../api/event";
 import { toast } from "react-toastify";
+import relationApi from "../../../api/relation";
 
 export default function EventForm({ courtId = 0, onSuccess }) {
     const { authUser } = useAuth()
@@ -34,9 +35,9 @@ export default function EventForm({ courtId = 0, onSuccess }) {
         setError("")
         setInput({ ...input, [e.target.name]: e.target.value })
     }
-    const handleChangeCheckBox = e => {
-        setInput({ ...input, [e.target.name]: e.target.checked })
-    }
+    // const handleChangeCheckBox = e => {
+    //     setInput({ ...input, [e.target.name]: e.target.checked })
+    // }
 
     const handleSubmit = async (e) => {
         try {
@@ -61,9 +62,9 @@ export default function EventForm({ courtId = 0, onSuccess }) {
             if (Date.parse(input.eventDay) < Date.parse(input.closingTime)) {
                 return setError("Event have to be After Closing Day")
             }
-            if (data.evnetDuration) {
-                data.evnetDuration = data.evnetDuration + "h"
-            }
+            // if (data.evnetDuration) {
+            //     data.evnetDuration = data.evnetDuration + "h"
+            // }
             data.limit = +data.limit
             data.eventDay = data.eventDay + ":00Z"
             const response = await eventApi.createEvent(data)
@@ -71,6 +72,7 @@ export default function EventForm({ courtId = 0, onSuccess }) {
                 setError("cannot create event")
             }
             onSuccess()
+            await relationApi.createRelation(response.data.events.id)
             setEvents(prev => [...prev, response.data.events])
             toast.success('Create event complete')
 

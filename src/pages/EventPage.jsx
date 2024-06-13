@@ -17,7 +17,7 @@ export default function EventPage() {
 
     return (
         <div>
-            <div className='flex justify-between items-center px-8 pt-4 pb-2 sticky top-14 bg-blue-200'>
+            <div className='flex justify-between items-center px-8 pt-4 pb-2 sticky top-14 bg-blue-200 opacity-90'>
                 <h1 className='text-4xl font-bold'>EventList</h1>
                 <Button bg='sky' onClick={() => setOpen(true)} >Add Event</Button>
                 <Modal title="Event Detail" width={40} open={open} onClose={() => setOpen(false)}>

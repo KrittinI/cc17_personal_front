@@ -11,7 +11,7 @@ export default function EventContextProvider({ children }) {
 
     const fetchEventData = async () => {
         const response = await eventApi.getAllEvent()
-        const data = response.data.events
+        const data = response?.data?.events
         // data?.map(event => {
         //     const now = Date.now()
         //     let eventTime = Date.parse(event.eventDay)
