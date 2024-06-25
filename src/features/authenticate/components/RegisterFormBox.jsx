@@ -3,7 +3,7 @@ import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 import RegisterForm from "./RegisterForm";
 
-export default function RegisterBox() {
+export default function RegisterFormBox() {
     const [open, setOpen] = useState(false)
     return (
         <>

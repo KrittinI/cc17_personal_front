@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import useAuth from "../../../hooks/useAuth"
-
+import Spinner from "../../../components/Spinner"
 
 export default function RedirectAwayLogin({ children }) {
     const { authUser, isLoading } = useAuth()
@@ -8,13 +8,12 @@ export default function RedirectAwayLogin({ children }) {
         return (
             <>
                 <Navigate to='/' />
-
             </>
         )
-
     }
     return (
         <>
+            {isLoading && <Spinner />}
             {children}
         </>
     )

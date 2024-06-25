@@ -4,14 +4,13 @@ import Input from "../../../components/Input";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import RegisterBox from "./RegisterBox";
+import RegisterFormBox from "./RegisterFormBox";
 import validateLogin from "../validators/login-validator";
 
 const initialInput = {
     userName: '',
     password: ''
 }
-
 
 export default function LoginForm() {
     const [input, setInput] = useState(initialInput)
@@ -39,25 +38,22 @@ export default function LoginForm() {
             navigate('/')
             toast.success(`Welcome, ${input.userName}`)
         } catch (error) {
-            // if (error instanceof AxiosError) {
-            // console.log(error, "FROM CATCH");
-            // }
             delete input.email
             delete input.mobile
-            // setError('username or password incorrect')
             setError(error.response.data.message)
         }
 
     }
 
     return (
-        <div className="absolute mt-8 right-64 flex flex-col gap-4 bg-slate-100 w-96 p-8 justify-center items-center rounded-xl">
+        <div className="flex flex-col gap-4 bg-slate-100 w-96 p-8 justify-center items-center rounded-xl">
+            <p className="text-4xl font-bold font-serif text-blue-500">LOG IN</p>
             <Input placeholder={`Username Email or Mobile`} name="userName" value={input.userName} onChage={handleChangeInput} />
             <Input placeholder={`Password`} type="password" name="password" value={input.password} onChage={handleChangeInput} />
             {error ? <span className="text-red-500 text-sm">{error}</span> : <p></p>}
             <Button width={60} onClick={handleLogin}>LOGIN</Button>
             <hr className="w-[90%] border " />
-            <RegisterBox />
+            <RegisterFormBox />
         </div>
     )
 }

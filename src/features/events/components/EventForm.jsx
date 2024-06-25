@@ -27,7 +27,6 @@ export default function EventForm({ courtId = 0, onSuccess }) {
         limit: "",
         payFirst: false
     }
-
     const [input, setInput] = useState(initialInput)
     const [error, setError] = useState("")
 

@@ -1,4 +1,4 @@
-export default function Input({ placeholder, type = 'text', error, value, onChage, name, size = 3 }) {
+export default function Input({ placeholder, type = 'text', error, value = "", onChage, name, size = 3 }) {
     return (
         <>
             <input

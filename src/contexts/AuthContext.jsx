@@ -3,7 +3,7 @@ import authApi from "../api/auth";
 import { useState } from "react";
 import { useEffect } from "react";
 import relationApi from "../api/relation";
-
+import { getAccessToken, removeAccessToken, setAccessToken } from "../utils/local-storage";
 
 export const AuthContext = createContext()
 
@@ -11,11 +11,11 @@ export default function AuthContextProvider({ children }) {
     const [authUser, setAuthUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [authRelation, setAuthRelation] = useState([])
-
     const fetchUser = async () => {
         try {
-            if (localStorage.getItem("ACCESS_TOKEN")) {
+            if (getAccessToken()) {
                 const res = await authApi.getAuthUser()
+                console.log(res);
                 setAuthUser(res.data.user)
                 const response = await relationApi.getEventByUserId(res.data.user.id)
                 setAuthRelation(response.data.relations)
@@ -27,7 +27,6 @@ export default function AuthContextProvider({ children }) {
         }
     }
     useEffect(() => {
-
         fetchUser()
     }, [])
 
@@ -37,13 +36,14 @@ export default function AuthContextProvider({ children }) {
             throw response
         }
 
-        localStorage.setItem('ACCESS_TOKEN', response?.data.accessToken)
+        setAccessToken(response?.data.accessToken)
         const resGetUser = await authApi.getAuthUser()
+        console.log(resGetUser);
         setAuthUser(resGetUser?.data.user)
     }
 
     const logout = () => {
-        localStorage.removeItem('ACCESS_TOKEN')
+        removeAccessToken()
         setAuthUser(null)
     }
 

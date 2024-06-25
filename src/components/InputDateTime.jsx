@@ -1,12 +1,7 @@
+import { getToday } from "../utils/get-today";
 
 export default function InputDateTime({ placeholder, type = "datetime-local", error, value, onChage, name, size = 3 }) {
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-    const year = now.getFullYear();
-    const hour = String(now.getHours()).padStart(2, '0');
-    const minute = String(now.getMinutes()).padStart(2, '0');
-    const today = year + '-' + month + '-' + day + 'T' + hour + ':' + minute;
+    const today = getToday()
     return (
         <>
             <input

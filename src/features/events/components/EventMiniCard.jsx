@@ -8,6 +8,9 @@ const statusMap = {
 }
 
 export default function EventMiniCard({ event }) {
+    // const a = new Date(event.eventDay)
+    // console.log(a.toLocaleString());
+    // console.log(new Date(event.eventDay).toLocaleString());
     const eventDay = event.eventDay.split('T')
     const date = eventDay[0].split('-').reverse().join('/')
     const time = eventDay[1].slice(0, 5)

@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import { Navigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
 
 export default function RedirectToLogin({ children }) {
     const { authUser, isLoading } = useAuth()
@@ -11,6 +11,7 @@ export default function RedirectToLogin({ children }) {
     }
     return (
         <>
+            {isLoading && <Spinner />}
             {children}
         </>
     )

@@ -3,6 +3,7 @@ import axios from 'axios'
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
 
 axios.interceptors.request.use(config => {
+    // console.log(config);
     const accessToken = localStorage.getItem("ACCESS_TOKEN")
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
@@ -13,7 +14,10 @@ axios.interceptors.request.use(config => {
 )
 
 axios.interceptors.response.use(
-    value => value,
+    value => {
+        // console.log(value);  
+        return value
+    },
 
     err => {
         if (err.response.status === 401) {

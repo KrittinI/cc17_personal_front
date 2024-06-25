@@ -8,7 +8,7 @@ export const EventContext = createContext()
 
 export default function EventContextProvider({ children }) {
     const [events, setEvents] = useState([])
-
+    console.log(events);
     const fetchEventData = async () => {
         const response = await eventApi.getAllEvent()
         const data = response?.data?.events

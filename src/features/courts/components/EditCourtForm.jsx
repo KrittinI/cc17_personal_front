@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 
 
-export default function CourtForm({ onSuccess, courtDetail, setCourtDetail }) {
+export default function EditCourtForm({ onSuccess, courtDetail, setCourtDetail }) {
     const [input, setInput] = useState(courtDetail)
     const [error, setError] = useState()
 

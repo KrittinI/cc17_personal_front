@@ -11,7 +11,7 @@ export default function CourtContainer({ display, limit }) {
             <CardContainer display={display}>
                 {courts?.slice(0, limit * 4).map(court =>
                     <Link key={court.id} to={`/courts/${court.id}`}>
-                        <CourtCard key={court.id} court={court} display={display} />
+                        <CourtCard court={court} display={display} />
                     </Link>
                 )}
             </CardContainer>
@@ -21,7 +21,7 @@ export default function CourtContainer({ display, limit }) {
         <CardContainer display={display}>
             {courts?.map(court =>
                 <Link key={court.id} to={`/courts/${court.id}`}>
-                    <CourtCard key={court.id} court={court} display={display} />
+                    <CourtCard court={court} display={display} />
                 </Link>
             )}
         </CardContainer>

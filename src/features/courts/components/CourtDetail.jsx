@@ -4,7 +4,7 @@ import Modal from "../../../components/Modal";
 import { BadmintonIcon } from "../../../icons";
 import EventForm from "../../events/components/EventForm";
 import useAuth from "../../../hooks/useAuth";
-import EditCourtForm from "./EditCourtForm"
+import EditCourtFormBox from "./EditCourtFormBox";
 
 const widthMap = {
     full: 'w-full',
@@ -15,7 +15,6 @@ export default function CourtDetail({ courtDetail, width = "full", setCourtDetai
 
     const { authUser } = useAuth()
     const [open, setOpen] = useState(false)
-    const [isEdit, setIsEdit] = useState(false)
 
 
     return (
@@ -48,19 +47,13 @@ export default function CourtDetail({ courtDetail, width = "full", setCourtDetai
                         </div>
                     </div>
                 </div>
-                {true && <div className="self-end">
-                    <Button width={40} bg="none" color="black" onClick={() => setIsEdit(true)}>Edit Court</Button>
-                    <Modal title={`Edit Court`} open={isEdit} onClose={() => setIsEdit(false)}>
-                        <EditCourtForm onSuccess={() => setIsEdit(false)} courtDetail={courtDetail} setCourtDetail={setCourtDetail} />
-                    </Modal>
-                </div>
-                }
+                {authUser?.isAdmin && <EditCourtFormBox courtDetail={courtDetail} setCourtDetail={setCourtDetail} />}
             </div>
             <div className="flex-1 flex flex-col justify-between py-4 items-center">
                 <div className="flex flex-col gap-4 w-full">
                     <div
                         className=" flex justify-center items-center bg-gray-100 rounded-md h-64 w-full">
-                        {courtDetail.courtImage || <BadmintonIcon />}
+                        {courtDetail?.courtImage || <BadmintonIcon />}
                     </div>
                     <div className="font-semibold">Google Map:</div>
                     {courtDetail.location

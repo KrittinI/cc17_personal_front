@@ -4,6 +4,8 @@ import Button from "../../../components/Button";
 import validateRegister from "../validators/register-validator";
 import authApi from "../../../api/auth";
 import { toast } from "react-toastify";
+import { nanoid } from "nanoid";
+import { setAccessUUID } from "../../../utils/local-storage";
 
 const initialInput = {
     userName: '',
@@ -45,11 +47,14 @@ export default function RegisterForm({ onSuccess }) {
             }
             setInputError({ ...initialInputError })
             const response = await authApi.register(input)
-            // await authApi.register(input)
+            await authApi.register(input)
             if (response.status !== 201) {
                 throw response.response.data
             }
             onSuccess();
+            const id = nanoid()
+            console.log(id);
+            setAccessUUID(id, input)
             toast.success('register successfully. please login to continue.')
         } catch (error) {
             setError(error.message)

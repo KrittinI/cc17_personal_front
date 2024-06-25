@@ -9,7 +9,8 @@ export default function ProfileEvent({ userId }) {
     const { authRelation } = useAuth()
 
     const joinEvent = authRelation.filter(event => event.events.creatorId !== userId).map(event => event.events)
-
+    console.log(events);
+    console.log(authRelation);
     useEffect(() => {
         const fetchEventData = async () => {
             try {

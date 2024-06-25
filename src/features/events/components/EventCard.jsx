@@ -28,8 +28,12 @@ export default function EventCard({ event, display }) {
                 <div>{`${date}, ${time} ${event?.evnetDuration ? `(${event?.evnetDuration}h)` : ''}`}</div>
             </div>
             <div className="flex justify-between items-center">
-                <div>{event?.limit === 0 ? "No Limit" : `Limit:${event?.limit} person`}</div>
-                <div className={`px-3 py-1 ${statusMap[event?.status]} font-semibold rounded-md `}>{event?.status}</div>
+                <div>
+                    {event?.limit === 0
+                        ? `${event?._count?.eventrelation} person join`
+                        : `${event?._count?.eventrelation} / ${event?.limit} person`}
+                </div>
+                <div className={`px-2 py-1 ${statusMap[event?.status]} font-semibold rounded-md `}>{event?.status}</div>
             </div>
         </CardBox>
     )
